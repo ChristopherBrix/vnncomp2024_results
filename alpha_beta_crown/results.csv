@@ -1,0 +1,6 @@
+test,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,22.029537817,unsat,7.031685064
+test,vnncomp2024_benchmarks/benchmarks/test/test_tiny.onnx,vnncomp2024_benchmarks/benchmarks/test/test_tiny.vnnlib,21.582045146,unsat,7.070845050
+test,vnncomp2024_benchmarks/benchmarks/test/test_small.onnx,vnncomp2024_benchmarks/benchmarks/test/test_small.vnnlib,21.601448179,unsat,7.058345720
+test,vnncomp2024_benchmarks/benchmarks/test/test_sat.onnx,vnncomp2024_benchmarks/benchmarks/test/test_prop.vnnlib,21.611847057,sat,7.017631963
+test,vnncomp2024_benchmarks/benchmarks/test/test_unsat.onnx,vnncomp2024_benchmarks/benchmarks/test/test_prop.vnnlib,21.602576043,unsat,7.818248360
+test,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,21.605377863,unsat,7.029210330
