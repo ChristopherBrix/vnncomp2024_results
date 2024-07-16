@@ -140,3 +140,9 @@ metaroom_2023,vnncomp2024_benchmarks/benchmarks/metaroom_2023/./onnx/4cnn_tz_9_1
 metaroom_2023,vnncomp2024_benchmarks/benchmarks/metaroom_2023/./onnx/6cnn_ry_94_15_no_custom_OP.onnx,vnncomp2024_benchmarks/benchmarks/metaroom_2023/./vnnlib/spec_idx_149_eps_0.00000436.vnnlib,2.606707506,unsat,7.369474,10.157678687
 metaroom_2023,vnncomp2024_benchmarks/benchmarks/metaroom_2023/./onnx/4cnn_tz_94_15_no_custom_OP.onnx,vnncomp2024_benchmarks/benchmarks/metaroom_2023/./vnnlib/spec_idx_90_eps_0.00001000.vnnlib,2.094088222,unsat,4.219592,6.993086960
 metaroom_2023,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,1.993624264,unsat,3.419728,6.132582686
+test,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,2.055907670,unsat,3.426393,6.461124428
+test,vnncomp2024_benchmarks/benchmarks/test/test_tiny.onnx,vnncomp2024_benchmarks/benchmarks/test/test_tiny.vnnlib,1.995219809,unsat,3.422612,6.217338479
+test,vnncomp2024_benchmarks/benchmarks/test/test_small.onnx,vnncomp2024_benchmarks/benchmarks/test/test_small.vnnlib,2.053595820,unsat,3.476082,6.242864550
+test,vnncomp2024_benchmarks/benchmarks/test/test_sat.onnx,vnncomp2024_benchmarks/benchmarks/test/test_prop.vnnlib,2.012784712,sat,0.281645,3.050707532
+test,vnncomp2024_benchmarks/benchmarks/test/test_unsat.onnx,vnncomp2024_benchmarks/benchmarks/test/test_prop.vnnlib,1.991232923,unsat,4.233526,7.002325786
+test,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,1.998434155,unsat,3.381235,6.149859345
