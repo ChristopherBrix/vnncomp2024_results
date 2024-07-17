@@ -185,9 +185,3 @@ acasxu_2023,vnncomp2024_benchmarks/benchmarks/acasxu_2023/onnx/ACASXU_run2a_2_9_
 acasxu_2023,vnncomp2024_benchmarks/benchmarks/acasxu_2023/onnx/ACASXU_run2a_3_3_batch_2000.onnx,vnncomp2024_benchmarks/benchmarks/acasxu_2023/vnnlib/prop_9.vnnlib,21.596563739,unsat,12.993550898
 acasxu_2023,vnncomp2024_benchmarks/benchmarks/acasxu_2023/onnx/ACASXU_run2a_4_5_batch_2000.onnx,vnncomp2024_benchmarks/benchmarks/acasxu_2023/vnnlib/prop_10.vnnlib,21.580465480,unsat,12.131874410
 acasxu_2023,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,21.582766468,unsat,7.055575098
-test,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,22.029537817,unsat,7.031685064
-test,vnncomp2024_benchmarks/benchmarks/test/test_tiny.onnx,vnncomp2024_benchmarks/benchmarks/test/test_tiny.vnnlib,21.582045146,unsat,7.070845050
-test,vnncomp2024_benchmarks/benchmarks/test/test_small.onnx,vnncomp2024_benchmarks/benchmarks/test/test_small.vnnlib,21.601448179,unsat,7.058345720
-test,vnncomp2024_benchmarks/benchmarks/test/test_sat.onnx,vnncomp2024_benchmarks/benchmarks/test/test_prop.vnnlib,21.611847057,sat,7.017631963
-test,vnncomp2024_benchmarks/benchmarks/test/test_unsat.onnx,vnncomp2024_benchmarks/benchmarks/test/test_prop.vnnlib,21.602576043,unsat,7.818248360
-test,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,21.605377863,unsat,7.029210330
