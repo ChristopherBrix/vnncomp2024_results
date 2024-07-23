@@ -131,7 +131,10 @@ def make_input_box_dict(num_inputs):
 def get_io_nodes(onnx_model):
     'returns 3 -tuple: input node, output nodes, input dtype'
 
-    sess = ort.InferenceSession(onnx_model.SerializeToString())
+    sess_opt = ort.SessionOptions()
+    sess_opt.intra_op_num_threads = 12
+    sess_opt.inter_op_num_threads = 12
+    sess = ort.InferenceSession(onnx_model.SerializeToString(), sess_opt)
     inputs = [i.name for i in sess.get_inputs()]
     assert len(inputs) == 1, f"expected single onnx network input, got: {inputs}"
     input_name = inputs[0]
@@ -170,7 +173,7 @@ def get_num_inputs_outputs(onnx_filename):
     for n in out_shape:
         num_outputs *= n
 
-@cachier(stale_after=datetime.timedelta(days=1))
+@cachier(cache_dir='./cachier', stale_after=datetime.timedelta(days=100), wait_for_calc_timeout=30, pickle_reload=False, separate_files=True)
 def read_vnnlib_simple(vnnlib_filename, num_inputs, num_outputs):
     '''process in a vnnlib file. You can get num_inputs and num_outputs using get_num_inputs_outputs().
 
@@ -191,7 +194,7 @@ def read_vnnlib_simple(vnnlib_filename, num_inputs, num_outputs):
     comparison_str = r"\((<=|>=) (\S+) (\S+)\)"
 
     # example: "(and (<= Y_0 Y_2)(<= Y_1 Y_2))"
-    dnf_clause_str = r"\(and (" + comparison_str + r")+\)"
+    dnf_clause_str = r"\(and ?(" + comparison_str + r")+\)"
     
     # example: "(assert (<= Y_0 Y_1))"
     regex_simple_assert = re.compile(r"^\(assert " + comparison_str + r"\)$")

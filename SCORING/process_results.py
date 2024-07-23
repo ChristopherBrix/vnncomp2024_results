@@ -6,6 +6,7 @@ Stanley Bak
 
 from typing import Dict, List, Tuple, Union
 
+import sys
 import glob
 import csv
 from pathlib import Path
@@ -49,6 +50,7 @@ class ToolResult:
         self.cpu_overhead = np.inf # if using separate overhead for cpu
         
         self.max_prepare = 0.0
+        self.total_instances = dict()
 
         self.load(scored, csv_path)
 
@@ -86,7 +88,8 @@ class ToolResult:
         res = row[ToolResult.RESULT]
         t = float(row[ToolResult.RUN_TIME])
 
-        t -= self.cpu_overhead if cat in self.cpu_benchmarks else self.gpu_overhead
+        # Overhead is no longer subtracted
+        # t -= self.cpu_overhead if cat in self.cpu_benchmarks else self.gpu_overhead
 
         # prevent 0 times as this messes up log plots
         t = max(Settings.PLOT_MIN_TIME, t)
@@ -121,11 +124,8 @@ class ToolResult:
                 # in 2023, year was prepended to category
                 year = ""
 
-                if "2022" in network:
-                    year = "2022"
-                else:
-                    assert "2023" in network, f"year not found in network path: {network}"
-                    year = "2023"
+                assert "2024" in network, f"year not found in network path: {network}"
+                year = "2024"
 
                 cat = year + "_" + cat
 
@@ -147,6 +147,7 @@ class ToolResult:
 
                 if not ("test_nano" in network or "test_tiny" in network):
                     self.category_to_list[cat].append(row)
+                    self.total_instances[cat] = self.total_instances.get(cat, 0) + 1
 
                 if result not in ["holds", "violated", "timeout", "error", "unknown"]:
                     unexpected_results.add(result)
@@ -233,6 +234,8 @@ def compare_results(all_tool_names, gnuplot_tool_cat_times, result_list, single_
         print(f"No categories selected when scored={scored}, skipping")
         return
 
+    total_instances = dict()
+
     for cat in sorted(ToolResult.all_categories):
         print(f"\nCategory {cat}:")
 
@@ -245,6 +248,11 @@ def compare_results(all_tool_names, gnuplot_tool_cat_times, result_list, single_
         participating_tools = []
 
         for tool_result in result_list:
+            if cat in tool_result.total_instances:
+                if cat in total_instances:
+                    assert total_instances[cat] == tool_result.total_instances[cat], f"cat {cat} has different instance counts"
+                else:
+                    total_instances[cat] = tool_result.total_instances[cat]
             cat_dict = tool_result.category_to_list
 
             if not cat in cat_dict:
@@ -306,7 +314,18 @@ def compare_results(all_tool_names, gnuplot_tool_cat_times, result_list, single_
                     net = Path(full_network_path).stem
                     prop = Path(row[ToolResult.PROP]).stem
                     
-                    ce_path = f"../{t.tool_name}/{cat}/{net}_{prop}.counterexample.gz"
+                    if "safenlp" in full_network_path:
+                        if "medical" in full_network_path:
+                            ce_path = f"../{t.tool_name}/{cat}/medical_{net}_{prop}.counterexample.gz"
+                            net = f"medical/{net}"
+                            prop = f"medical/{prop}"
+                        else:
+                            assert "ruarobot" in full_network_path
+                            ce_path = f"../{t.tool_name}/{cat}/ruarobot_{net}_{prop}.counterexample.gz"
+                            net = f"ruarobot/{net}"
+                            prop = f"ruarobot/{prop}"
+                    else:
+                        ce_path = f"../{t.tool_name}/{cat}/{net}_{prop}.counterexample.gz"
 
                     if not Settings.SKIP_CE_FILES:
                         assert Path(ce_path).is_file(), f"CE path not found: {ce_path} and Settings.SKIP_CE_FILES is False"
@@ -442,7 +461,10 @@ def compare_results(all_tool_names, gnuplot_tool_cat_times, result_list, single_
 
             for tool, score_tup in cat_score.items():
                 score = score_tup[0]
-                percent = max(min_percent, 100 * score / max_score)
+                if max_score > 0:
+                    percent = max(min_percent, 100 * score / max_score)
+                else:
+                    percent = 0.0
                 print(f"{tool}: {score} ({round(percent, 2)}%)")
 
                 total_score[tool] += percent
@@ -491,26 +513,29 @@ def compare_results(all_tool_names, gnuplot_tool_cat_times, result_list, single_
 
         with open(filename, 'a', encoding='utf-8') as f:
         
-            tee(f, f"\n% Category {cat} (single_overhead={single_overhead}):")
+            tee(f, f"\n\\clearpage\n% Category {cat} (single_overhead={single_overhead}):")
             res_list = []
             max_score = max([t[0] for t in cat_score.values()])
 
             cat_str = cat.replace('_', '-')
 
             print_table_header(f, f"Benchmark \\texttt{{{cat_str}}}", "tab:cat_{cat}",
-                               ("\\# ~", "Tool", "Verified", "Falsified", "Fastest", "Penalty", "Score", "Percent"),
-                               align='llllllrr')
+                               ("\\# ~", "Tool", "Verified", "Falsified", "Fastest", "Penalty", "Points", "Score", "Solved"),
+                               align='llllllrrr')
 
             for tool, score_tup in cat_score.items():
                 score, num_verified, num_falsified, num_fastest, num_error = score_tup
 
-                percent = max(min_percent, 100 * score / max_score)
+                if max_score > 0:
+                    percent = max(min_percent, 100 * score / max_score)
+                else:
+                    percent = 0.0
                 tool_latex = latex_tool_name(tool)
 
                 #desc = f"{tool}: {score} ({round(percent, 2)}%)"
-                desc = f"{tool_latex} & {num_verified} & {num_falsified} & {num_fastest} & {num_error} & {score} & {round(percent, 1)}\\% \\\\"
+                desc = f"{tool_latex} & {num_verified} & {num_falsified} & {num_fastest} & {num_error} & {score} & {round(percent, 1)} & {(num_verified + num_falsified) * 100.0 / total_instances[cat]:.1f}\\% \\\\"
 
-                res_list.append((percent, desc))
+                res_list.append((score, desc))
 
             for i, s in enumerate(reversed(sorted(res_list))):
                 tee(f, f"{i+1} & {s[1]}")
@@ -717,11 +742,14 @@ def get_score(tool_name, res, secs, rand_gen_succeded, times_holds, times_violat
     valid_ce_this_tool = False
 
     for ce_tool_name, ce_valid_res in ce_results.items():
+        # The ce may be within the tolerance, but outside the real bounds.
+        # In that case, do not penalize this tool, but also do not assume this instance
+        # is SAT.
+
         if ce_valid_res == CounterexampleResult.CORRECT:
             valid_ce_any_tool = True
-            if ce_tool_name == tool_name:
-                valid_ce_this_tool = True
-            break
+        if ce_tool_name == tool_name and ce_valid_res in [CounterexampleResult.CORRECT, CounterexampleResult.CORRECT_UP_TO_TOLERANCE]:
+            valid_ce_this_tool = True
 
     assert not rand_gen_succeded, "VNNCOMP doesn't use randgen anymore"
     correct_result = False
@@ -1251,6 +1279,8 @@ def main():
         ToolResult.reset()
 
         for csv_path, tool_name in zip(csv_list, tool_list):
+            if tool_name.lower() == "scoring":
+                continue
             tr = ToolResult(scored, tool_name, csv_path, cpu_benchmarks[tool_name], skip_benchmarks[tool_name])
             result_list.append(tr)
 
