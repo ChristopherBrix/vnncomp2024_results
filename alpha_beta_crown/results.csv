@@ -2345,12 +2345,6 @@ safenlp,vnncomp2024_benchmarks/benchmarks/safenlp/onnx/ruarobot/perturbations_0.
 safenlp,vnncomp2024_benchmarks/benchmarks/safenlp/onnx/medical/perturbations_0.onnx,vnncomp2024_benchmarks/benchmarks/safenlp/vnnlib/medical/hyperrectangle_1136.vnnlib,21.634436960,unsat,7.122579250
 safenlp,vnncomp2024_benchmarks/benchmarks/safenlp/onnx/medical/perturbations_0.onnx,vnncomp2024_benchmarks/benchmarks/safenlp/vnnlib/medical/hyperrectangle_706.vnnlib,21.667767030,unsat,7.122095782
 safenlp,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,21.699373393,unsat,7.092271799
-test,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,22.029537817,unsat,7.031685064
-test,vnncomp2024_benchmarks/benchmarks/test/test_tiny.onnx,vnncomp2024_benchmarks/benchmarks/test/test_tiny.vnnlib,21.582045146,unsat,7.070845050
-test,vnncomp2024_benchmarks/benchmarks/test/test_small.onnx,vnncomp2024_benchmarks/benchmarks/test/test_small.vnnlib,21.601448179,unsat,7.058345720
-test,vnncomp2024_benchmarks/benchmarks/test/test_sat.onnx,vnncomp2024_benchmarks/benchmarks/test/test_prop.vnnlib,21.611847057,sat,7.017631963
-test,vnncomp2024_benchmarks/benchmarks/test/test_unsat.onnx,vnncomp2024_benchmarks/benchmarks/test/test_prop.vnnlib,21.602576043,unsat,7.818248360
-test,vnncomp2024_benchmarks/benchmarks/test/test_nano.onnx,vnncomp2024_benchmarks/benchmarks/test/test_nano.vnnlib,21.605377863,unsat,7.029210330
 tinyimagenet,vnncomp2024_benchmarks/benchmarks/tinyimagenet/onnx/TinyImageNet_resnet_medium.onnx,vnncomp2024_benchmarks/benchmarks/tinyimagenet/vnnlib/TinyImageNet_resnet_medium_prop_idx_1924_sidx_6759_eps_0.0039.vnnlib,33.693007557,unsat,22.644335367
 tinyimagenet,vnncomp2024_benchmarks/benchmarks/tinyimagenet/onnx/TinyImageNet_resnet_medium.onnx,vnncomp2024_benchmarks/benchmarks/tinyimagenet/vnnlib/TinyImageNet_resnet_medium_prop_idx_3866_sidx_8102_eps_0.0039.vnnlib,28.768886252,unsat,22.580882767
 tinyimagenet,vnncomp2024_benchmarks/benchmarks/tinyimagenet/onnx/TinyImageNet_resnet_medium.onnx,vnncomp2024_benchmarks/benchmarks/tinyimagenet/vnnlib/TinyImageNet_resnet_medium_prop_idx_5414_sidx_1938_eps_0.0039.vnnlib,28.776916250,sat,10.548878143
